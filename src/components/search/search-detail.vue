@@ -45,17 +45,7 @@
     methods: {
       _getBookLists(val){
         Indicator.open('加载中');
-//        api.get(`/search/?keyword=${val}`, {}, (res) => {
-//          if (res.ok) {
-//            this.bookLists = this._unEscape(this.normalizeBooks(res.books.slice(0, 20)))
-//            if (this.bookLists <= 20 || this.bookLists.length === res.books.length) {
-//              this.allLoaded = true
-//            }
-//            Indicator.close();
-//          }
-//        });
         search(val).then((res) => {
-          console.log(res)
           if (res.data.ok) {
             this.bookLists = this._unEscape(this.normalizeBooks(res.data.books.slice(0, 20)))
             if (this.bookLists <= 20 || this.bookLists.length === res.data.books.length) {

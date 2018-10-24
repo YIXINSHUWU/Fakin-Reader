@@ -349,11 +349,11 @@
           transitionDuration: '0s'
         };
         this.getBookChapters(item._id);
-
         if (this.getBookLocalStorage()[this.$route.params.id]) {
           this.setBookLocalStorage()
+        } else {
+          this.tryRead(index)
         }
-        this.tryRead(index)
       },
       //切换目录
       selectChapter(index){
@@ -470,7 +470,8 @@
           let _book = JSON.stringify(books).replace(/^"|"$/g, '');
           this.loading = false;
           if (c.test(_book)) {
-            return _book.replace(/\\n|\\t|\\r/g, '<br/>')
+            _book = '<p>' + _book.replace(/\s*/g, '').replace(/\\n/g, '</p><p>') + '</p>';
+            return _book
           } else {
             return 'vip章节，请购买或者换源阅读！' //换源功能已经实现
           }
@@ -752,8 +753,8 @@
         padding 50px 10px 80px 10px; /*no*/
         .book-inner
           text-align justify
-          line-height 50px
-        /*no*/
+          line-height 60px/*no*/
+          text-indent 2em
         .book-title
           line-height 50px
           font-weight 400
@@ -777,7 +778,6 @@
         overflow: hidden;
         padding: 0 10px; /*no*/
         text-align: justify;
-        line-height 50px /*no*/
         bottom 20px; /*no*/
         top: 50px; /*no*/
         .read-section
@@ -785,6 +785,9 @@
           .read-section-inner
             overflow visible
             height 100%
+            .book-inner
+              line-height 60px /*no*/
+              text-indent 2em
           .book-title
             line-height 50px
             font-weight 400
@@ -983,4 +986,5 @@
       width 100%;
       height 100%;
       font-size 25px
+
 </style>
