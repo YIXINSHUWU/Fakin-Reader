@@ -34,7 +34,7 @@
         <p class="book-title" style="padding: 10px">{{bookContent.title}}</p>
         <div class="read-article">
           <section class="read-section" :style="styleObject">
-            <div class="read-section-inner" :style="{columns:414-20+'px',columnGap:10+'px'}"
+            <div class="read-section-inner" :style="{columns:clWidth-20+'px',columnGap:10+'px'}"
                  ref="bookInner" id="bookInner">
               <h1 class="book-title" :style="{fontSize:fontSize*1.2+'px'}">{{bookContent.title}}</h1>
               <div class="book-inner" :style="{fontSize:fontSize+'px'}"
@@ -166,6 +166,7 @@
         readePattern: 0,
         pagingPattern: 0,
         bootPage: 0,
+        clWidth: document.documentElement.clientWidth || document.body.clientWidth
       }
     },
     computed: {
@@ -176,7 +177,6 @@
 
     },
     created(){
-      this.clWidth = document.documentElement.clientWidth || document.body.clientWidth;
       this.getNewUser();
       this.BookSourcesId = this._bookSourceId()
     },
@@ -196,6 +196,13 @@
     },
     mounted(){
       this.getUserLocalStorage();
+      const that = this;
+      window.onresize = () => {
+        return (() => {
+          that.clWidth = document.body.clientWidth;
+          that.$router.go(0)
+        })()
+      };
     },
     methods: {
       //获取是否为新用户，新用户的则需要引导页
@@ -735,6 +742,7 @@
       background rgba(50, 51, 52, 0.9)
       z-index 10000
       display flex
+      max-width: 750px;
       .b-item
         width 33.3333333%
         .center
@@ -753,7 +761,7 @@
         padding 50px 10px 80px 10px; /*no*/
         .book-inner
           text-align justify
-          line-height 60px/*no*/
+          line-height 60px /*no*/
           text-indent 2em
         .book-title
           line-height 50px
